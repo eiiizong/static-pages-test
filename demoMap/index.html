@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- 通过 flexible 将html标签上设置字体大小 -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"
+    />
+    <!-- 关闭将数字字符串识别为电话号码 -->
+    <meta name="format-detection" content="telephone=no" />
+    <!-- 关闭识别邮箱 -->
+    <meta name="format-detection" content="email=no" />
+    <!-- 删除默认的苹果工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 控制状态栏显示样式 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>百度地图描点测试</title>
+
+    <!-- 引入最终生成编译的css -->
+    <link rel="stylesheet" href="./css/index.min.css" />
+    <script src="https://api.map.baidu.com/api?v=2.0&ak=tXwWUYUUQ624lXh5nQCiG0Vy2xfZvTle"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcdn.net/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+      <script src="https://cdn.bootcdn.net/ajax/libs/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="app" id="app">
+      <div class="toolbar">
+        <button @click="addmark">测试</button>
+      </div>
+      <div class="map-wrapper">
+        <div id="map" class="map"></div>
+      </div>
+    </div>
+  </body>
+  <!-- 引入 js 文件 -->
+  <script src="./lib/vue/dist/vue.min.js"></script>
+  <script src="./js/index.js"></script>
+</html>
