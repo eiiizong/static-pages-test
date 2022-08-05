@@ -66,7 +66,7 @@ $(function () {
 
   var handleInfoPopup = function (point, data, isOpen) {
     let opts = {
-      width: 400, // 信息窗口宽度
+      width: 430, // 信息窗口宽度
       height: 140, // 信息窗口高度
     }
 
