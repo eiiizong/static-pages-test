@@ -27,7 +27,7 @@ body {
 }
 .app .map {
   height: 100%;
-  background-color: #f0f;
+  /* background-color: #f0f; */
 }
 .toolbar {
   padding: 20px;

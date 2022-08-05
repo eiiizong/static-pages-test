@@ -62,7 +62,8 @@ $(function () {
   // 创建Map实例
   var map = new BMap.Map('map', { enableMapClick: false })
 
-  var handleInfoPopup = function (context, point, data) {
+  var handleInfoPopup = function (point, data) {
+    debugger
     let opts = {
       width: 400, // 信息窗口宽度
       height: 140, // 信息窗口高度
@@ -70,7 +71,7 @@ $(function () {
 
     let html =
       "<div style='height:140px;display:flex;justify-content: space-between;font-size:0.8vw;background:rgba(0,255,255,0.1)'>" +
-      "<img style='width: 40%;height:100%' src=" +
+      "<img style='width: 36%;height:100%' src=" +
       data.avatarUrl +
       " alt=''>" +
       "<div style='width:55%;height:100%;display:flex;justify-content: space-between;flex-flow:column;'>" +
@@ -107,7 +108,7 @@ $(function () {
       '</div>' +
       '</div>'
     let infoWindows = new BMap.InfoWindow(html, opts)
-    context.openInfoWindow(infoWindows, point)
+    map.openInfoWindow(infoWindows, point)
   }
 
   var getBounds = function () {
@@ -130,7 +131,7 @@ $(function () {
   }
 
   var getMarker = function (point, avatarUrl, data) {
-    var avatarSize = 50
+    var avatarSize = 60
     // 创建图标对象
     var myIcon = new BMap.Icon(
       avatarUrl,
@@ -146,21 +147,15 @@ $(function () {
     })
 
     map.addOverlay(marker)
-
+    marker.setAnimation(BMAP_ANIMATION_DROP) //坠落动画
     // 鼠标点击标注点
     marker.addEventListener('click', function (e) {
-      console.log(this, e, 9877)
-      //覆盖物阻止事件冒泡到地图上
-      e.domEvent.stopPropagation()
-      e.domEvent.preventDefault()
-      e.domEvent.cancelBubble = true
-
-      handleInfoPopup(this, point, data)
+      handleInfoPopup(point, data)
     })
     // 鼠标移开标注点
-    marker.addEventListener('mouseout', function () {
-      // this.closeInfoWindow(infoWindows)
-    })
+    // marker.addEventListener('mouseout', function () {
+    //   // this.closeInfoWindow(infoWindows)
+    // })
   }
 
   var IsInPolygon = function (x, y) {
@@ -173,9 +168,17 @@ $(function () {
       return false
     }
   }
+  // 删除所有标记点
+  var deletePoint = function () {
+    var allOverlay = map.getOverlays()
+    for (var i = 0; i < allOverlay.length; i++) {
+      map.removeOverlay(allOverlay[i])
+    }
+  }
 
   var listenerFunc = function () {
     getBounds()
+    deletePoint()
     addmark()
   }
 
