@@ -2,6 +2,7 @@
 
 $(function () {
   var polygon = null
+  var isShowDetails = false
   var mockData = [
     {
       lng: 104.08934,
@@ -60,7 +61,8 @@ $(function () {
     },
   ]
   // 创建Map实例
-  var map = new BMap.Map('map')
+  var map = new BMap.Map('map', { enableMapClick: false })
+  map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
 
   var handleInfoPopup = function (point, data, isOpen) {
     let opts = {
@@ -181,15 +183,17 @@ $(function () {
 
   var listenerFunc = function () {
     getBounds()
-    deletePoint()
-    addmark()
+
+    if (isShowDetails) {
+      deletePoint()
+      addmark()
+    }
   }
 
   var renderMap = function () {
-    var point = new BMap.Point(28.760795, 104.645867) // 创建定坐标
     // 初始化地图,设置中心点坐标和地图级别
-    map.centerAndZoom(point, 16)
-    map.addOverlay(point)
+    map.centerAndZoom('成都市', 16) // 初始化地图,设置中心点坐标和地图
+    // map.addOverlay(point)
     var geolocation = new BMap.Geolocation()
     var gc = new BMap.Geocoder() // 创建地理编码器
     // 开启SDK辅助定位
@@ -236,6 +240,7 @@ $(function () {
   map.addEventListener('zoomend', listenerFunc)
 
   $('#btn_test').on('click', function () {
+    isShowDetails = true
     addmark()
   })
   var init = function () {
