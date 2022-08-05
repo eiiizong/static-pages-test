@@ -60,9 +60,9 @@ $(function () {
     },
   ]
   // 创建Map实例
-  var map = new BMap.Map('map', { enableMapClick: false })
+  var map = new BMap.Map('map')
 
-  var handleInfoPopup = function (point, data) {
+  var handleInfoPopup = function (point, data, isOpen) {
     let opts = {
       width: 400, // 信息窗口宽度
       height: 140, // 信息窗口高度
@@ -107,7 +107,11 @@ $(function () {
       '</div>' +
       '</div>'
     let infoWindows = new BMap.InfoWindow(html, opts)
-    map.openInfoWindow(infoWindows, point)
+    if (isOpen) {
+      map.openInfoWindow(infoWindows, point)
+    } else {
+      map.closeInfoWindow(infoWindows)
+    }
   }
 
   var getBounds = function () {
@@ -149,12 +153,12 @@ $(function () {
     marker.setAnimation(BMAP_ANIMATION_DROP) //坠落动画
     // 鼠标点击标注点
     marker.addEventListener('click', function (e) {
-      handleInfoPopup(point, data)
+      handleInfoPopup(point, data, true)
     })
     // 鼠标移开标注点
-    // marker.addEventListener('mouseout', function () {
-    //   // this.closeInfoWindow(infoWindows)
-    // })
+    marker.addEventListener('mouseout', function () {
+      handleInfoPopup(point, data, false)
+    })
   }
 
   var IsInPolygon = function (x, y) {
@@ -199,17 +203,17 @@ $(function () {
         map.panTo(pt) // 移动地图中心点
         getBounds()
 
-        gc.getLocation(pt, function (rs) {
-          var addComp = rs.addressComponents
+        // gc.getLocation(pt, function (rs) {
+        //   var addComp = rs.addressComponents
 
-          var address =
-            addComp.province +
-            addComp.city +
-            addComp.district +
-            addComp.street +
-            addComp.streetNumber
-          console.log(address, '当前位置===')
-        })
+        //   var address =
+        //     addComp.province +
+        //     addComp.city +
+        //     addComp.district +
+        //     addComp.street +
+        //     addComp.streetNumber
+        //   console.log(address, '当前位置===')
+        // })
       } else {
         console.error('failed' + this.getStatus())
       }
@@ -217,10 +221,6 @@ $(function () {
   }
 
   var addmark = function () {
-    // var bounds = map.getBounds()
-    // var lngSpan = bounds.maxX - bounds.minX
-    // var latSpan = bounds.maxY - bounds.minY
-
     for (var i = 0; i < mockData.length; i++) {
       ;(function (i) {
         var item = mockData[i]
@@ -236,19 +236,10 @@ $(function () {
   map.addEventListener('zoomend', listenerFunc)
 
   $('#btn_test').on('click', function () {
-    console.log('btn_test===')
     addmark()
   })
   var init = function () {
     renderMap()
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        console.log(position, 'position==')
-      },
-      function (err) {
-        console.log(err, 34)
-      }
-    )
   }
 
   init()
