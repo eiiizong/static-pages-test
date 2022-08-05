@@ -63,7 +63,6 @@ $(function () {
   var map = new BMap.Map('map', { enableMapClick: false })
 
   var handleInfoPopup = function (point, data) {
-    debugger
     let opts = {
       width: 400, // 信息窗口宽度
       height: 140, // 信息窗口高度
@@ -190,7 +189,7 @@ $(function () {
     var geolocation = new BMap.Geolocation()
     var gc = new BMap.Geocoder() // 创建地理编码器
     // 开启SDK辅助定位
-    geolocation.enableSDKLocation()
+    // geolocation.enableSDKLocation()
     geolocation.getCurrentPosition(function (r) {
       if (this.getStatus() == BMAP_STATUS_SUCCESS) {
         var mk = new BMap.Marker(r.point)
@@ -242,6 +241,14 @@ $(function () {
   })
   var init = function () {
     renderMap()
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        console.log(position, 'position==')
+      },
+      function (err) {
+        console.log(err, 34)
+      }
+    )
   }
 
   init()
